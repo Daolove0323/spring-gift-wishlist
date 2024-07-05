@@ -39,19 +39,6 @@ public class ProductRepository {
         );
     }
 
-    public IdentifiedProductDto selectProductByAttributes(UnidentifiedProductDto product) {
-        String sql = "SELECT * FROM products WHERE name = ? AND price = ? AND imageUrl = ?";
-        return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) -> new IdentifiedProductDto(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getLong("price"),
-                resultSet.getString("imageUrl")
-            ),
-            product.name(),
-            product.price(),
-            product.imageUrl()
-        );
-    }
 
     public void insertProduct(UnidentifiedProductDto product) {
         String sql = "INSERT INTO products (name, price, imageUrl) VALUES (?, ?, ?)";
@@ -63,8 +50,4 @@ public class ProductRepository {
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
     }
 
-    public void deleteProductById(Long id) {
-        String sql = "DELETE FROM products WHERE id = ?";
-        jdbcTemplate.update(sql, id);
-    }
 }
